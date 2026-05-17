@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>example.api</groupId>
+		<artifactId>app</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>core</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>It's the core application module</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>example.api</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+
+		<!-- Jakarta annotation API -->
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+		</dependency>
+
+		<!-- OpenAPI/Swagger annotations -->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations-jakarta</artifactId>
+			<version>2.2.19</version>
+		</dependency>
+
+		<!-- Jackson for JSON -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<!-- Jakarta validation -->
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+		</dependency>
+
+		<!-- Jackson nullable support -->
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+		</dependency>
+
+		<!-- Spring Format (for @DateTimeFormat) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapi-generator.version}</version>
+				<executions>
+					<execution>
+						<id>generate-models</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.parent.basedir}/web/src/main/resources/openapi.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<modelPackage>example.api.core.model</modelPackage>
+							<configOptions>
+								<sourceFolder>src/main/java</sourceFolder>
+								<models>true</models>
+								<apis>false</apis>
+								<modelTests>false</modelTests>
+								<apiTests>false</apiTests>
+								<supportingFilesToGenerate></supportingFilesToGenerate>
+								<generatePom>false</generatePom>
+								<generateApiDocumentation>false</generateApiDocumentation>
+								<generateModelDocumentation>false</generateModelDocumentation>
+								<generateSupportingFiles>false</generateSupportingFiles>
+								<hideGenerationTimestamp>true</hideGenerationTimestamp>
+								<useBeanValidation>true</useBeanValidation>
+								<useSpringBoot3>true</useSpringBoot3>
+								<skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>clean-generated-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<configuration>
+							<excludeDefaultDirectories>true</excludeDefaultDirectories>
+							<filesets>
+								<fileset>
+									<directory>${project.build.directory}/generated-sources/openapi/src/main/java/org/openapitools</directory>
+									<includes>
+										<include>**/*.java</include>
+									</includes>
+								</fileset>
+								<fileset>
+									<directory>${project.build.directory}/generated-sources/openapi/src/test</directory>
+									<includes>
+										<include>**/*.java</include>
+									</includes>
+								</fileset>
+								<fileset>
+									<directory>${project.build.directory}/generated-sources/openapi/src/main/resources</directory>
+									<includes>
+										<include>**/*.properties</include>
+										<include>**/*.yaml</include>
+										<include>**/*.yml</include>
+									</includes>
+								</fileset>
+							</filesets>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>3.3.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>example.api</groupId>
+		<artifactId>app</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>web</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>It's the web application module</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>example.api</groupId>
+			<artifactId>core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>example.mail</groupId>
+			<artifactId>mail-lib</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>example.security</groupId>
+			<artifactId>security-lib</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapi-generator.version}</version>
+				<executions>
+					<execution>
+						<id>generate-apis</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<apiPackage>example.api.web.controller.api</apiPackage>
+							<modelPackage>example.api.core.model</modelPackage>
+							<invokerPackage>example.api.web</invokerPackage>
+							<configOptions>
+								<sourceFolder>src/main/java</sourceFolder>
+								<models>false</models>
+								<apis>true</apis>
+								<modelTests>false</modelTests>
+								<apiTests>false</apiTests>
+								<supportingFiles>false</supportingFiles>
+								<generatePom>false</generatePom>
+								<generateApiDocumentation>false</generateApiDocumentation>
+								<generateModelDocumentation>false</generateModelDocumentation>
+								<hideGenerationTimestamp>true</hideGenerationTimestamp>
+								<useBeanValidation>true</useBeanValidation>
+								<useSpringBoot3>true</useSpringBoot3>
+								<delegatePattern>true</delegatePattern>
+								<packageName>example.api.web</packageName>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- disable process forking that is enabled by default in spring-boot 2.2.0.RELEASE and higher (alternative: -Dspring-boot.run.fork=false) -->
+					<fork>false</fork>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

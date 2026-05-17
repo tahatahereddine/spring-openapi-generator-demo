@@ -1,0 +1,9 @@
+pom.xml
+README.md
+.openapi-generator-ignore
+.openapi-generator/
+src/main/java/org/openapitools/**
+src/test/java/**
+src/main/resources/application.properties
+src/main/resources/openapi.yaml
+.gitignore
